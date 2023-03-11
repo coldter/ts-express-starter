@@ -1,0 +1,12 @@
+{
+  "$schema": "https://json.schemastore.org/nodemon.json",
+  "watch": [
+    "src",
+    "*.evn"
+  ],
+  "ext": "ts,js,json,env",
+  "ignore": [
+    "src/logs/*"
+  ],
+  "exec": "tsx src/main.ts"
+}

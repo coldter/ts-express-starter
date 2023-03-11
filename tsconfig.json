@@ -1,0 +1,43 @@
+{
+  "compilerOptions": {
+    "lib": ["es2022"],
+    "module": "CommonJS",
+    "target": "ES2021",
+
+    "strict": true,
+    "esModuleInterop": true,
+    "moduleResolution": "node",
+    "forceConsistentCasingInFileNames": true,
+    "skipLibCheck": true,
+
+    "experimentalDecorators": true,
+    "emitDecoratorMetadata": true,
+    "sourceMap": true,
+    "declaration": true,
+    "allowJs": true,
+    "noEmit": false,
+    "resolveJsonModule": true,
+    "importHelpers": true,
+    "types": ["node"],
+
+    "baseUrl": "src",
+    "outDir": "dist",
+    "rootDir": ".",
+    "paths": {
+      "@config/*": ["config/*"],
+      "@utils/*": ["utils/*"],
+      "@models/*": ["models/*"],
+      "@database/*": ["database/*"],
+      "@constants/*": ["constants/*"],
+      "@exceptions/*": ["exceptions/*"],
+      "@middlewares/*": ["server/middlewares/*"],
+      "@routes/*": ["server/routes/*"],
+      "@controllers/*": ["server/controllers/*"],
+      "@services/*": ["server/services/*"],
+      "@server/*": ["server/*"],
+      "@/*": ["*"]
+    }
+  },
+  "include": ["src/**/*.ts", "src/**/*.json", ".env"],
+  "exclude": ["node_modules", "dist"]
+}

@@ -1,0 +1,10 @@
+const path = require('path');
+
+module.exports = {
+  config: path.resolve('./src/', 'database', 'sequelize', 'sequelize-cli.js'),
+  'seeders-path': path.resolve('./src/', 'database', 'sequelize', 'seeders'),
+  'migrations-path': path.resolve('./src/', 'database', 'sequelize', 'migrations'),
+  'models-path': path.resolve('./src/', 'models', 'sequelize'),
+};
+
+// console.log(path.resolve('./src/', 'models', 'sequelize'))

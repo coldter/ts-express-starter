@@ -1,0 +1,41 @@
+{
+  "$schema": "https://json.schemastore.org/swcrc",
+  "jsc": {
+    "parser": {
+      "syntax": "typescript",
+      "tsx": false,
+      "dynamicImport": true,
+      "decorators": true
+    },
+    "transform": {
+      "legacyDecorator": true,
+      "decoratorMetadata": true
+    },
+    "target": "es2021",
+    "externalHelpers": false,
+    "keepClassNames": true,
+    "loose": false,
+    "minify": {
+      "compress": false,
+      "mangle": false
+    },
+    "baseUrl": "src",
+    "paths": {
+      "@config/*": ["config/*"],
+      "@utils/*": ["utils/*"],
+      "@models/*": ["models/*"],
+      "@database/*": ["database/*"],
+      "@constants/*": ["constants/*"],
+      "@exceptions/*": ["exceptions/*"],
+      "@middlewares/*": ["server/middlewares/*"],
+      "@routes/*": ["server/routes/*"],
+      "@controllers/*": ["server/controllers/*"],
+      "@services/*": ["server/services/*"],
+      "@server/*": ["server/*"],
+      "@/*": ["*"]
+    }
+  },
+  "module": {
+    "type": "commonjs"
+  }
+}
