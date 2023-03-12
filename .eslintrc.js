@@ -16,6 +16,7 @@ module.exports = {
   rules: {
     'no-console': 'off',
     'no-return-await': 'off',
+    '@typescript-eslint/return-await': 'off',
     'import/prefer-default-export': 'off',
     'max-classes-per-file': 'off',
     '@typescript-eslint/lines-between-class-members': 'off',

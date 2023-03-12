@@ -1,17 +1,1 @@
-{
-  "version": "0.2.0",
-  "configurations": [
-    {
-      "type": "pwa-node",
-      "request": "launch",
-      "name": "Launch Program",
-      "skipFiles": ["<node_internals>/**"],
-      "program": "${workspaceFolder}/build/index.js",
-      "outFiles": ["${workspaceFolder}/build/**/*.js"],
-      "env": { "NODE_ENV": "development" },
-      "resolveSourceMapLocations": ["${workspaceFolder}/**", "!**/node_modules/**"],
-      "preLaunchTask": "prepare app to debug",
-      "postDebugTask": "clean app after debug"
-    }
-  ]
-}
+{}
