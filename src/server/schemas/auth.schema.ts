@@ -8,3 +8,8 @@ export const userRegisterSchema = yup.object({
   mobile: yup.string().required(),
   password: yup.string().required(),
 });
+
+export const userLoginSchema = yup.object({
+  email: yup.string().email().lowercase().required(),
+  password: yup.string().required(),
+});

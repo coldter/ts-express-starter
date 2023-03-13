@@ -9,7 +9,7 @@ import { BadRequest } from '@exceptions/HttpException';
 export const validateBody =
   (
     schema: ObjectSchema<any, any> | ArraySchema<any, any>,
-    stripUnknown: boolean = false,
+    stripUnknown: boolean = true,
   ): RequestHandler =>
   async (req: Request, _res: Response, next: NextFunction) => {
     const { body } = req;

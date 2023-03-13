@@ -19,6 +19,7 @@
     "resolveJsonModule": true,
     "importHelpers": true,
     "types": ["node"],
+    "typeRoots": ["./node_modules/@types"],
 
     "baseUrl": "src",
     "outDir": "dist",

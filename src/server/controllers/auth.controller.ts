@@ -1,17 +1,44 @@
-import { Request, Response } from 'express';
-import { createUser, getHelloWorld, getUserByEmailOrMobile } from '@services/auth.service';
+import { Response } from 'express';
+import {
+  createJwtTokenAuthEntry,
+  createUser,
+  getUserByEmailOrMobile,
+  getUserPasswordById,
+} from '@services/auth.service';
 import { PayloadRequest } from '@interfaces/express';
-import { IUserRegisterSchema } from '@interfaces/app/auth.interface';
+import { IUserLoginSchema, IUserRegisterSchema } from '@interfaces/app/auth.interface';
 import { response } from '@helpers/response.helper';
 import { BadRequest } from '@exceptions/HttpException';
-import { hashPassword } from '@helpers/crypto.helper';
+import { comparePassword, generateJwtToken, hashPassword } from '@helpers/crypto.helper';
 import { HttpStatusCodes } from '@constants/HttpStatusCodes';
+import { ACCOUNT_TYPE } from '@constants/common.constants';
 
 /**
  * @description Login a user
  */
-export const loginUser = async (req: Request, res: Response) => {
-  res.send(getHelloWorld());
+export const loginUser = async (req: PayloadRequest<IUserLoginSchema>, res: Response) => {
+  const { email, password } = req.body;
+
+  const user = await getUserByEmailOrMobile(email);
+
+  if (!user) {
+    throw new BadRequest('Invalid credentials');
+  }
+
+  const hashedPassword = await getUserPasswordById(user.id);
+
+  const isPasswordValid = await comparePassword(password, hashedPassword || '');
+
+  if (!isPasswordValid) {
+    throw new BadRequest('Invalid credentials');
+  }
+
+  // * Generate JWT token
+  const token = generateJwtToken(user, ACCOUNT_TYPE.USER);
+
+  await createJwtTokenAuthEntry(token, user.id, ACCOUNT_TYPE.USER);
+
+  return response(res, { token: token.token }, 'User logged in successfully');
 };
 
 /**

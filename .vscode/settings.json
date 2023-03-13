@@ -1,4 +1,17 @@
 {
   "editor.cursorBlinking": "expand",
-  "cSpell.words": ["middlewares"]
+  "cSpell.words": ["middlewares"],
+  "workbench.colorCustomizations": {
+    "activityBar.activeBackground": "#5db5ab",
+    "activityBar.background": "#5db5ab",
+    "activityBar.foreground": "#15202b",
+    "activityBar.inactiveForeground": "#15202b99",
+    "activityBarBadge.background": "#f4e9f5",
+    "activityBarBadge.foreground": "#15202b",
+    "commandCenter.border": "#e7e7e799",
+    "titleBar.activeBackground": "#469990",
+    "titleBar.activeForeground": "#e7e7e7",
+    "titleBar.inactiveBackground": "#46999099",
+    "titleBar.inactiveForeground": "#e7e7e799"
+  }
 }

@@ -2,11 +2,12 @@ import { Sequelize } from 'sequelize';
 import { highlight } from 'cli-highlight';
 import { env } from '@config/env';
 import { SequelizeConfig as config } from '@config/db.config';
-import { authModel, usersModel } from '@models/index';
+import { authModel, authTokenModel, usersModel } from '@models/index';
 
 const ENVIRONMENT = env.NODE_ENV;
 interface Db {
   Auth: ReturnType<typeof authModel>;
+  AuthToken: ReturnType<typeof authTokenModel>;
   User: ReturnType<typeof usersModel>;
   sequelize: Sequelize;
 }
@@ -31,6 +32,7 @@ const sequelize = new Sequelize({
 // * Models
 const db: Db = {
   Auth: authModel(sequelize),
+  AuthToken: authTokenModel(sequelize),
   User: usersModel(sequelize),
   sequelize,
 };
