@@ -2,14 +2,14 @@ import { Sequelize } from 'sequelize';
 import { highlight } from 'cli-highlight';
 import { env } from '@config/env';
 import { SequelizeConfig as config } from '@config/db.config';
-import { usersModel } from '@models/index';
+import { authModel, usersModel } from '@models/index';
 
 const ENVIRONMENT = env.NODE_ENV;
 interface Db {
+  Auth: ReturnType<typeof authModel>;
   User: ReturnType<typeof usersModel>;
   sequelize: Sequelize;
 }
-const db: Db = {} as Db;
 
 // * sequelize instance initialization
 const sequelize = new Sequelize({
@@ -29,7 +29,11 @@ const sequelize = new Sequelize({
 });
 
 // * Models
-db.User = usersModel(sequelize);
+const db: Db = {
+  Auth: authModel(sequelize),
+  User: usersModel(sequelize),
+  sequelize,
+};
 
 // * association initialization for all models
 const models = Object.values(db);
@@ -40,6 +44,4 @@ models.forEach((model) => {
 });
 
 // * export
-db.sequelize = sequelize;
-
 export { db, sequelize };

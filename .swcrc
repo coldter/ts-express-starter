@@ -27,10 +27,13 @@
       "@database/*": ["database/*"],
       "@constants/*": ["constants/*"],
       "@exceptions/*": ["exceptions/*"],
+      "@interfaces/*": ["interfaces/*"],
       "@middlewares/*": ["server/middlewares/*"],
       "@routes/*": ["server/routes/*"],
+      "@helpers/*": ["server/helpers/*"],
       "@controllers/*": ["server/controllers/*"],
       "@services/*": ["server/services/*"],
+      "@schemas/*": ["server/schemas/*"],
       "@server/*": ["server/*"],
       "@/*": ["*"]
     }

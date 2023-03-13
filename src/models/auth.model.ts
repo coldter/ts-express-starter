@@ -1,5 +1,4 @@
-import { ACCOUNT_STATUS } from '@constants/common.constants';
-import { AccountStatus } from '@interfaces/app/common.interface';
+import { AccountType } from '@interfaces/app/common.interface';
 import {
   CreationOptional,
   DataTypes,
@@ -10,20 +9,18 @@ import {
   literal,
 } from 'sequelize';
 
-export class User extends Model<InferAttributes<User>, InferCreationAttributes<User>> {
+export class Auth extends Model<InferAttributes<Auth>, InferCreationAttributes<Auth>> {
   declare id: CreationOptional<string>;
   // timestamps!
   declare createdAt: CreationOptional<Date>;
   declare updatedAt: CreationOptional<Date>;
   declare deletedAt: CreationOptional<Date>;
 
-  declare name: string;
-  declare email: string;
-  declare dob: Date | null;
-  declare countryCode: string;
-  declare mobile: string;
-  declare profileImage: CreationOptional<string>;
-  declare status: CreationOptional<AccountStatus>;
+  declare type: AccountType;
+  declare typeId: string;
+  declare hashedPassword: string;
+  declare resetToken: string | null;
+  declare resetTokenExpiry: Date | null;
 
   public declare static associate: (models: any) => void;
 
@@ -46,7 +43,7 @@ export class User extends Model<InferAttributes<User>, InferCreationAttributes<U
 }
 
 export default (sequelize: Sequelize) => {
-  User.init(
+  Auth.init(
     {
       id: {
         field: 'id',
@@ -55,48 +52,32 @@ export default (sequelize: Sequelize) => {
         defaultValue: DataTypes.UUIDV4,
         primaryKey: true,
       },
-      name: {
-        field: 'name',
+      type: {
+        field: 'type',
+        type: DataTypes.STRING(45),
+        allowNull: false,
+      },
+      typeId: {
+        field: 'typeId',
+        type: DataTypes.UUID,
+        allowNull: false,
+      },
+      hashedPassword: {
+        field: 'hashedPassword',
         type: DataTypes.STRING(255),
-        allowNull: true,
-        defaultValue: null,
-      },
-      email: {
-        field: 'email',
-        type: DataTypes.STRING(255),
         allowNull: false,
-        validate: {
-          isLowercase: true,
-        },
+        defaultValue: '',
       },
-      dob: {
-        field: 'dob',
-        type: DataTypes.DATE,
-        allowNull: true,
-        defaultValue: null,
-      },
-      countryCode: {
-        field: 'countryCode',
-        type: DataTypes.STRING(10),
-        allowNull: false,
-      },
-      mobile: {
-        field: 'mobile',
-        type: DataTypes.STRING(15),
-        allowNull: false,
-        unique: true,
-      },
-      profileImage: {
-        field: 'profileImage',
+      resetToken: {
+        field: 'resetToken',
         type: DataTypes.STRING(255),
         allowNull: true,
         defaultValue: '',
       },
-      status: {
-        field: 'status',
-        type: DataTypes.TINYINT,
-        defaultValue: ACCOUNT_STATUS.ACTIVE,
-        allowNull: false,
+      resetTokenExpiry: {
+        field: 'resetTokenExpiry',
+        type: DataTypes.DATE,
+        allowNull: true,
       },
       createdAt: {
         field: 'createdAt',
@@ -119,11 +100,11 @@ export default (sequelize: Sequelize) => {
     },
     {
       sequelize,
-      modelName: 'User',
-      tableName: 'Users',
+      modelName: 'Auth',
+      tableName: 'Auth',
       paranoid: true,
       timestamps: true,
     },
   );
-  return User;
+  return Auth;
 };

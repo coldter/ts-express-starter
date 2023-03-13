@@ -1,12 +1,12 @@
 import { Response } from 'express';
-import type { ValueOf } from 'type-fest';
 import { HttpStatusCodes } from '@constants/HttpStatusCodes';
+import { HttpStatusCode, IStandardResponse } from '@interfaces/express';
 
 export const response = (
-  res: Response,
+  res: Response<IStandardResponse>,
   data: any = {},
   message: string = 'success',
-  statusCode: ValueOf<typeof HttpStatusCodes> = HttpStatusCodes.OK,
+  statusCode: HttpStatusCode = HttpStatusCodes.OK,
   success: boolean = true,
 ): void => {
   res.status(statusCode).json({
