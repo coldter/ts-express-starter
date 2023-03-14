@@ -1,12 +1,14 @@
 import { pathsToModuleNameMapper } from 'ts-jest';
-// In the following statement, replace `./tsconfig` with the path to your `tsconfig` file
-// which contains the path mapping (ie the `compilerOptions.paths` option):
 import { compilerOptions } from './tsconfig.json';
 import type { JestConfigWithTsJest } from 'ts-jest';
 
 const jestConfig: JestConfigWithTsJest = {
   preset: 'ts-jest',
-  roots: ['<rootDir>'],
+  displayName: 'All Tests',
+  roots: ['<rootDir>/src'],
+  testEnvironment: 'node',
+  testMatch: ['<rootDir>/src/**/*.spec.ts', '<rootDir>/src/**/*.test.ts'],
+  clearMocks: true,
   modulePaths: [compilerOptions.baseUrl],
   moduleNameMapper: pathsToModuleNameMapper(compilerOptions.paths, { prefix: '<rootDir>/src' }),
 };

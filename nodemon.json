@@ -1,10 +1,11 @@
 {
   "$schema": "https://json.schemastore.org/nodemon.json",
   "watch": [
-    "src",
-    "*.evn"
+    "/src/**/*",
+    "*.evn",
+    "/docs/**/*"
   ],
-  "ext": "ts,js,json,env",
+  "ext": "ts,js,json,env,yaml,yml",
   "ignore": [
     "src/logs/*"
   ],
