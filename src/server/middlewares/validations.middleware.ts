@@ -28,3 +28,30 @@ export const validateBody =
       throw error;
     }
   };
+
+/**
+ * @description validate request query
+ * @throws {BadRequest | any} if validation fails
+ */
+export const validateQuery =
+  (
+    schema: ObjectSchema<any, any> | ArraySchema<any, any>,
+    stripUnknown: boolean = true,
+  ): RequestHandler =>
+  async (req: Request, _res: Response, next: NextFunction) => {
+    const { query } = req;
+
+    try {
+      const value = await schema.validate(query, { stripUnknown, abortEarly: false });
+
+      req.query = value;
+      next();
+    } catch (error) {
+      if (error instanceof ValidationError) {
+        // * format error message
+        throw new BadRequest(error.errors.join(', '));
+      }
+
+      throw error;
+    }
+  };

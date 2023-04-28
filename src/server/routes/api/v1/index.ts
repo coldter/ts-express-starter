@@ -1,5 +1,5 @@
 import { Router } from 'express';
-import { verifyAuthToken } from '@middlewares/auth.middleware';
+import { verifyAuthBearerToken } from '@middlewares/bearerAuth.middleware';
 import authRoute from './auth.route.v1';
 import usersRoute from './user.route.v1';
 
@@ -11,6 +11,6 @@ const router = Router();
 router.use('/auth', authRoute);
 
 // * Protected user routes with auth middleware
-router.use('/user', verifyAuthToken, usersRoute);
+router.use('/user', verifyAuthBearerToken, usersRoute);
 
 export default router;

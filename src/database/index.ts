@@ -5,7 +5,7 @@ import { SequelizeConfig as config } from '@config/db.config';
 import { authModel, authTokenModel, usersModel } from '@models/index';
 
 const ENVIRONMENT = env.NODE_ENV;
-interface Db {
+export interface Db {
   Auth: ReturnType<typeof authModel>;
   AuthToken: ReturnType<typeof authTokenModel>;
   User: ReturnType<typeof usersModel>;

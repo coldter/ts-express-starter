@@ -3,6 +3,7 @@ import { logger } from '@utils/logger';
 import { HttpException } from '@exceptions/HttpException';
 import { HttpStatusCodes } from '@constants/HttpStatusCodes';
 import { HttpStatusCode, IStandardResponse } from '@interfaces/express';
+import { JsonWebTokenError } from 'jsonwebtoken';
 
 export const errorHandler = (
   err: any,
@@ -40,6 +41,11 @@ export const errorHandler = (
         message = 'Invalid Formation Of Data';
         statusCode = HttpStatusCodes.BAD_REQUEST;
       }
+      break;
+    }
+    case JsonWebTokenError: {
+      message = 'Invalid Token';
+      statusCode = HttpStatusCodes.UNAUTHORIZED;
       break;
     }
     default:

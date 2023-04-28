@@ -1,0 +1,53 @@
+services:
+  backend-api:
+    container_name: backend-api
+    env_file:
+      - ./.env
+    environment:
+      - NODE_ENV=${NODE_ENV:?err}
+      - PORT=${PORT:?err}
+    build:
+      context: .
+      dockerfile: Dockerfile
+      args:
+        - NODE_ENV=${NODE_ENV}
+        - PORT=${PORT}
+    image: backend-api-server
+    ports:
+      - ${PORT}:${PORT}
+    restart: unless-stopped
+    networks:
+      - backend-api-network
+    depends_on:
+      - db-mysql
+    links:
+      - db-mysql
+    extra_hosts:
+      - 'host.docker.internal:host-gateway'
+
+  db-mysql:
+    container_name: db-mysql
+    env_file:
+      - ./.env
+    environment:
+      - MYSQL_ROOT_PASSWORD=${DATABASE_PASSWORD:-root}
+      - MYSQL_DATABASE=${DATABASE_SCHEMA:-dev}
+      - MYSQL_USER=${DATABASE_USER:-dev}
+      - MYSQL_PASSWORD=${DATABASE_PASSWORD:-dev}
+    image: mysql:8.0
+    restart: unless-stopped
+    volumes:
+      - db-data:/var/lib/mysql
+    # make sure to use service name as hostname
+    networks:
+      - backend-api-network
+    ports:
+      - 3307:3306
+
+networks:
+  backend-api-network:
+    driver: bridge
+    name: backend-api-network
+volumes:
+  db-data:
+    name: db-data

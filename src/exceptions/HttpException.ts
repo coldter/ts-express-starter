@@ -60,3 +60,14 @@ export class NotFound extends HttpException {
     this.statusCode = statusCode || this.defaultStatusCode;
   }
 }
+
+export class TooManyRequests extends HttpException {
+  public readonly defaultMessage = 'Slow down, too many requests';
+  public readonly defaultStatusCode = HttpStatusCodes.TOO_MANY_REQUESTS;
+
+  public constructor(message?: string, statusCode?: HttpStatusCode) {
+    super();
+    this.message = message || this.defaultMessage;
+    this.statusCode = statusCode || this.defaultStatusCode;
+  }
+}

@@ -5,7 +5,7 @@ import { env } from '@config/env';
 import { MiddlewareRequest } from '@interfaces/express';
 import { checkTokenStatus } from '@services/auth.service';
 
-export const verifyAuthToken = async (
+export const verifyAuthBearerToken = async (
   req: MiddlewareRequest,
   _res: Response,
   next: NextFunction,
@@ -17,10 +17,13 @@ export const verifyAuthToken = async (
   }
 
   const token = authHeaders.split(' ')[1];
+  if (!token) {
+    throw new Unauthorized('Invalid formation of Authorization header');
+  }
 
   const entityData = jwt.verify(token, env.JWT_SECRET) as JwtPayload;
 
-  const tokeValidity = await checkTokenStatus(token);
+  const tokeValidity = await checkTokenStatus(token, entityData.data?.type || '');
   if (!tokeValidity) {
     throw new Unauthorized('Token is invalid');
   }

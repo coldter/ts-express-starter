@@ -39,7 +39,7 @@ try {
   });
 } catch (error: unknown) {
   if (error instanceof yup.ValidationError) {
-    logger.error(`Config validation error: ${error.message}`);
+    logger.error(`Config validation error: ${error.errors.join(', ')}`);
   } else {
     logger.error(`Config validation error: ${error}`);
   }

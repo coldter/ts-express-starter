@@ -1,3 +1,5 @@
+import { ACCOUNT_TYPE } from '@constants/common.constants';
+import { Db } from '@database/index';
 import { AccountType } from '@interfaces/app/common.interface';
 import {
   CreationOptional,
@@ -14,15 +16,30 @@ export class Auth extends Model<InferAttributes<Auth>, InferCreationAttributes<A
   // timestamps!
   declare createdAt: CreationOptional<Date>;
   declare updatedAt: CreationOptional<Date>;
-  declare deletedAt: CreationOptional<Date>;
+  declare deletedAt: CreationOptional<Date | null>;
 
-  declare type: AccountType;
-  declare typeId: string;
+  declare accountType: AccountType;
+  declare accountId: string;
   declare hashedPassword: string;
-  declare resetToken: string | null;
-  declare resetTokenExpiry: Date | null;
+  declare resetToken: string | null; // for password reset
+  declare resetTokenExpiry: Date | null; // for password reset expiry
+  declare emailVerificationToken: string | null;
+  declare emailVerificationTokenExpiry: Date | null;
+  declare loginVerificationToken: string | null;
+  declare loginVerificationTokenExpiry: Date | null;
 
-  public declare static associate: (models: any) => void;
+  public static associate({ User }: Db) {
+    this.belongsTo(User, {
+      foreignKey: 'accountId',
+      as: 'user',
+      targetKey: 'id',
+      scope: {
+        accountType: ACCOUNT_TYPE.USER,
+      },
+      constraints: false,
+      foreignKeyConstraint: false,
+    });
+  }
 
   // !! use this instead of the destroy method
   public static async softDelete({ id, ...rest }: { id: string; [key: string]: any }) {
@@ -52,13 +69,13 @@ export default (sequelize: Sequelize) => {
         defaultValue: DataTypes.UUIDV4,
         primaryKey: true,
       },
-      type: {
-        field: 'type',
+      accountType: {
+        field: 'accountType',
         type: DataTypes.STRING(45),
         allowNull: false,
       },
-      typeId: {
-        field: 'typeId',
+      accountId: {
+        field: 'accountId',
         type: DataTypes.UUID,
         allowNull: false,
       },
@@ -78,6 +95,30 @@ export default (sequelize: Sequelize) => {
         field: 'resetTokenExpiry',
         type: DataTypes.DATE,
         allowNull: true,
+      },
+      emailVerificationToken: {
+        field: 'emailVerificationToken',
+        type: DataTypes.STRING(255),
+        allowNull: true,
+        defaultValue: null,
+      },
+      emailVerificationTokenExpiry: {
+        field: 'emailVerificationTokenExpiry',
+        type: DataTypes.DATE,
+        allowNull: true,
+        defaultValue: null,
+      },
+      loginVerificationToken: {
+        field: 'loginVerificationToken',
+        type: DataTypes.STRING(255),
+        allowNull: true,
+        defaultValue: null,
+      },
+      loginVerificationTokenExpiry: {
+        field: 'loginVerificationTokenExpiry',
+        type: DataTypes.DATE,
+        allowNull: true,
+        defaultValue: null,
       },
       createdAt: {
         field: 'createdAt',

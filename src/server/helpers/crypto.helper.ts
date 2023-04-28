@@ -28,7 +28,7 @@ export const comparePassword = async (
 /**
  * @description generate jwt token with jwt id
  */
-export const generateJwtToken = (
+export const generateBearerJwtToken = (
   payload: Record<string, any>,
   type: AccountType,
 ): { token: string; jwtId: string } => {

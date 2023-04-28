@@ -5,6 +5,6 @@ export interface IUserInfoRO {
   dob: Date | null;
   countryCode: string;
   mobile: string;
-  profileImage: string;
+  profileImage: string | null;
   createdAt: Date;
 }

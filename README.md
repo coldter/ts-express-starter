@@ -177,4 +177,23 @@ The orm that is use --> [Sequelize V6](https://sequelize.org/docs/v6/other-topic
 - `db:seed`: runs the seed
 - `db:seed:all`: runs all seeds
 - `test`: runs all tests
-- `test:e2e`: runs the e2e tests
+- `test:e2e`: runs the e2e tests excluding the tests in the e2e folder
+
+## Dev Container
+
+The project is configured to run in a dev container. This means that you can run the project in a container without having to install any dependencies like database on your local machine.
+
+### Prerequisites
+
+- [Docker](https://docs.docker.com/get-docker/)
+- System with at least 8GB of RAM
+- 4 CPU cores
+- 20GB of free disk space
+- VSCode with the [Remote - Containers](https://marketplace.visualstudio.com/items?itemName=ms-vscode-remote.remote-containers) extension installed
+
+### Setup
+
+1. Open the project in VSCode
+2. Press `F1` or `Ctrl+Shift+P` and select `Remote-Containers: Reopen in Container`
+
+This will start building the container and installing all dependencies. Once finished, you can start the server by running `npm start:dev` in the terminal.

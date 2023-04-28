@@ -2,3 +2,5 @@ dist
 src/models/index.ts
 src/database/sequelize/*
 jest.config.*
+package*.json
+tsconfig*.json

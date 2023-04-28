@@ -1,4 +1,5 @@
-import { ACCOUNT_STATUS } from '@constants/common.constants';
+import { ACCOUNT_STATUS, ACCOUNT_TYPE } from '@constants/common.constants';
+import { Db } from '@database/index';
 import { AccountStatus } from '@interfaces/app/common.interface';
 import {
   CreationOptional,
@@ -15,17 +16,28 @@ export class User extends Model<InferAttributes<User>, InferCreationAttributes<U
   // timestamps!
   declare createdAt: CreationOptional<Date>;
   declare updatedAt: CreationOptional<Date>;
-  declare deletedAt: CreationOptional<Date>;
+  declare deletedAt: CreationOptional<Date | null>;
 
   declare name: string;
   declare email: string;
   declare dob: Date | null;
   declare countryCode: string;
   declare mobile: string;
-  declare profileImage: CreationOptional<string>;
+  declare profileImage: string | null;
   declare status: CreationOptional<AccountStatus>;
 
-  public declare static associate: (models: any) => void;
+  public static associate({ Auth }: Db) {
+    this.hasOne(Auth, {
+      foreignKey: 'accountId',
+      as: 'auth',
+      sourceKey: 'id',
+      scope: {
+        accountType: ACCOUNT_TYPE.USER,
+      },
+      constraints: false,
+      foreignKeyConstraint: false,
+    });
+  }
 
   // !! use this instead of the destroy method
   public static async softDelete({ id, ...rest }: { id: string; [key: string]: any }) {
@@ -58,8 +70,8 @@ export default (sequelize: Sequelize) => {
       name: {
         field: 'name',
         type: DataTypes.STRING(255),
-        allowNull: true,
-        defaultValue: null,
+        allowNull: false,
+        defaultValue: 'anonymous',
       },
       email: {
         field: 'email',
@@ -68,6 +80,8 @@ export default (sequelize: Sequelize) => {
         validate: {
           isLowercase: true,
         },
+        unique: true,
+        defaultValue: 'anonymous@example.com',
       },
       dob: {
         field: 'dob',
@@ -90,7 +104,7 @@ export default (sequelize: Sequelize) => {
         field: 'profileImage',
         type: DataTypes.STRING(255),
         allowNull: true,
-        defaultValue: '',
+        defaultValue: null,
       },
       status: {
         field: 'status',
@@ -120,7 +134,7 @@ export default (sequelize: Sequelize) => {
     {
       sequelize,
       modelName: 'User',
-      tableName: 'Users',
+      tableName: 'User',
       paranoid: true,
       timestamps: true,
     },

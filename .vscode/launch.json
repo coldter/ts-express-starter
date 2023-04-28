@@ -8,13 +8,16 @@
       "type": "node",
       "request": "launch",
       "name": "Debug",
+      "env": {
+        "NODE_ENV": "development"
+      },
       "program": "${workspaceFolder}/src/main.ts",
       "preLaunchTask": "npm: build",
       "sourceMaps": true,
       "smartStep": true,
       "console": "integratedTerminal",
       "internalConsoleOptions": "openOnSessionStart",
-      "outFiles": ["${workspaceFolder}/dist/**/*.js", "!**/node_modules/**"],
+      "outFiles": ["${workspaceFolder}/dist/**/*.js", "!**/node_modules/**"]
     }
   ]
 }

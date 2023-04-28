@@ -1,5 +1,4 @@
 {
   "editor.cursorBlinking": "expand",
-  "cSpell.words": ["middlewares"],
-  }
+  "cSpell.words": ["jwtid", "middlewares"]
 }

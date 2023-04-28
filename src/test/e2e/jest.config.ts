@@ -4,12 +4,13 @@ import rootConfig from '../../../jest.config';
 
 const rootDir = resolve(__dirname, '..', '..', '..');
 
-const jestConfig: JestConfigWithTsJest = {
+const jestE2EConfig: JestConfigWithTsJest = {
   ...rootConfig,
   rootDir,
-  displayName: 'E2E Tests',
+  displayName: 'E2E-Tests',
   testMatch: ['<rootDir>/src/test/e2e/**/*.spec.ts', '<rootDir>/src/test/e2e/**/*.test.ts'],
+  setupFilesAfterEnv: ['<rootDir>/src/test/e2e/jest.setup.ts', 'jest-extended/all'],
+  testPathIgnorePatterns: [],
 };
 
-console.log(jestConfig);
-export default jestConfig;
+export default jestE2EConfig;

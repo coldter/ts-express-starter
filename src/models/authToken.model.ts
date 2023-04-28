@@ -6,7 +6,6 @@ import {
   InferCreationAttributes,
   Model,
   Sequelize,
-  literal,
 } from 'sequelize';
 
 export class AuthToken extends Model<
@@ -17,33 +16,17 @@ export class AuthToken extends Model<
   // timestamps!
   declare createdAt: CreationOptional<Date>;
   declare updatedAt: CreationOptional<Date>;
-  declare deletedAt: CreationOptional<Date>;
 
-  declare type: AccountType;
-  declare typeId: string;
-  declare token: string;
-  declare validTill: Date;
+  declare accountType: AccountType;
+  declare accountId: string;
+  declare bearerToken: string | null;
+  declare bearerTokenValidTill: Date | null;
+  declare refreshToken: string | null;
+  declare refreshTokenValidTill: Date | null;
   declare deviceId: string | null;
   declare fcmToken: string | null;
 
   public declare static associate: (models: any) => void;
-
-  // !! use this instead of the destroy method
-  public static async softDelete({ id, ...rest }: { id: string; [key: string]: any }) {
-    return this.update(
-      {
-        deletedAt: new Date(),
-        updatedAt: literal('updatedAt'),
-        ...rest,
-      },
-      {
-        where: {
-          id,
-        },
-        silent: true,
-      },
-    );
-  }
 }
 
 export default (sequelize: Sequelize) => {
@@ -56,34 +39,49 @@ export default (sequelize: Sequelize) => {
         defaultValue: DataTypes.UUIDV4,
         primaryKey: true,
       },
-      type: {
-        field: 'type',
+      accountType: {
+        field: 'accountType',
         type: DataTypes.STRING(45),
         allowNull: false,
       },
-      typeId: {
-        field: 'typeId',
+      accountId: {
+        field: 'accountTypeId',
         type: DataTypes.UUID,
         allowNull: false,
       },
-      token: {
-        field: 'typeId',
-        type: DataTypes.UUID,
-        allowNull: false,
-      },
-      validTill: {
-        field: 'validTill',
-        type: DataTypes.DATE,
-        allowNull: false,
-      },
-      deviceId: {
-        field: 'deviceId',
+      refreshToken: {
+        field: 'refreshToken',
         type: DataTypes.STRING(255),
+        allowNull: true,
+        defaultValue: null,
+      },
+      refreshTokenValidTill: {
+        field: 'refreshTokenValidTill',
+        type: DataTypes.DATE,
+        allowNull: true,
+        defaultValue: null,
+      },
+      bearerToken: {
+        field: 'bearerToken',
+        // * this should be jtid if we are using jwt
+        type: DataTypes.STRING(255),
+        allowNull: true,
+        defaultValue: null,
+      },
+      bearerTokenValidTill: {
+        field: 'bearerTokenValidTill',
+        type: DataTypes.DATE,
         allowNull: true,
         defaultValue: null,
       },
       fcmToken: {
         field: 'fcmToken',
+        type: DataTypes.STRING(255),
+        allowNull: true,
+        defaultValue: null,
+      },
+      deviceId: {
+        field: 'deviceId',
         type: DataTypes.STRING(255),
         allowNull: true,
         defaultValue: null,
@@ -100,18 +98,12 @@ export default (sequelize: Sequelize) => {
         allowNull: false,
         defaultValue: DataTypes.NOW,
       },
-      deletedAt: {
-        field: 'deletedAt',
-        type: DataTypes.DATE,
-        allowNull: true,
-        defaultValue: null,
-      },
     },
     {
       sequelize,
       modelName: 'AuthToken',
       tableName: 'AuthToken',
-      paranoid: true,
+      paranoid: false,
       timestamps: true,
     },
   );

@@ -1,0 +1,70 @@
+{
+  "name": "Node.js Development Dev Container",
+  "build": {
+    "dockerfile": "./.dev.Dockerfile",
+    "context": "."
+  },
+  "runArgs": ["--add-host=host.docker.internal:host-gateway"],
+  // Use 'forwardPorts' to make a list of ports inside the container available locally.
+  "forwardPorts": [3000],
+  "portsAttributes": {
+    "3000": {
+      "label": "Backend API Port",
+      "onAutoForward": "notify"
+    }
+  },
+  "remoteUser": "node",
+  "hostRequirements": {
+    "cpus": 4,
+    "memory": "8gb",
+    "storage": "20gb"
+  },
+  "features": {
+    "sshd": "latest",
+    "docker-in-docker": {
+      "version": "latest",
+      "moby": true,
+      "dockerDashComposeVersion": "v2"
+    }
+  },
+  "customizations": {
+    "vscode": {
+      "settings": {
+        "[javascript]": {
+          "editor.defaultFormatter": "esbenp.prettier-vscode"
+        },
+        "[typescript]": {
+          "editor.defaultFormatter": "esbenp.prettier-vscode"
+        },
+        "[json]": {
+          "editor.defaultFormatter": "esbenp.prettier-vscode"
+        },
+        "editor.cursorBlinking": "expand",
+        "editor.cursorSmoothCaretAnimation": true,
+        "resmon.show.battery": false,
+        "resmon.show.cpufreq": false
+      },
+      "extensions": [
+        "dbaeumer.vscode-eslint",
+        "esbenp.prettier-vscode",
+        "ms-azuretools.vscode-docker",
+        "yzhang.markdown-all-in-one",
+        "streetsidesoftware.code-spell-checker",
+        "Gruntfuggly.todo-tree",
+        "mutantdino.resourcemonitor",
+        "ChakrounAnas.turbo-console-log",
+        "yoavbls.pretty-ts-errors",
+        "EditorConfig.EditorConfig",
+        "donjayamanne.githistory",
+        "42Crunch.vscode-openapi",
+        "GraphQL.vscode-graphql",
+        "VisualStudioExptTeam.vscodeintellicode",
+        "VisualStudioExptTeam.intellicode-api-usage-examples",
+        "GitHub.copilot",
+        "GitHub.copilot-labs",
+        "cschleiden.vscode-github-actions",
+        "wmaurer.change-case"
+      ]
+    }
+  }
+}
